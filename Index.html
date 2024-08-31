@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop-watch</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        width: 100%;
+        height: 100vh;
+        background-image: url('background_image.jpg');
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+.container {
+     padding: 100px;
+     max-width: 1000px;
+     text-align: center;
+      position: center; 
+     border-radius: 10px;
+     background-color: rgba(54, 7, 7, 0.248);
+     /* filter: blur(5px) grayscale(50%); */
+
+    }
+
+    #timerDisplay {
+        font-size: 50px;
+        margin-bottom: 20px;
+    }
+
+    .time{
+              padding: 1rem 0;
+              font-size: 2rem;
+    }
+
+    h1,
+    p {
+        color: aliceblue;
+       color: rgb(199, 21, 239);
+    }
+
+    button {
+         padding: 10px;
+        margin: 10px; 
+        border-radius: 10px;
+        border: 1px solid rgb(237, 17, 219);
+        filter: drop-shadow(1px 1px 20px rgb(237, 17, 219)) ;
+        cursor:pointer;
+    }
+
+    button:hover {
+        background-color: rgba(85, 22, 180, 0.6);
+    color:aliceblue;
+    }
+
+    .timerDisplay {
+        height: 200%;
+        width: 200%;
+    }
+    
+     text {
+      font-size: 200px;
+      color: rgba(200, 19, 143, 0.315);
+      animation: pulse 1s infinite;
+    } 
+    @keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+    
+
+    .text1 {
+      font-size: 100px;
+      color: rgba(200, 19, 143, 0.315);
+      margin-bottom: 200px;
+      /* animation: lightning 5s infinite ; */
+    
+    }
+
+    /* @keyframes lightning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+
+
+    .text2 {
+      font-size: 80px;
+      color: rgba(200, 19, 143, 0.315);
+     margin-top: 300px;
+     animation: light 5s infinite ;
+
+    } 
+
+    @keyframes light {
+  0% {
+    margin-left: 100px;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+    .text3 {
+      font-size: 200px;
+      color: rgba(200, 19, 143, 0.315);
+      margin-bottom:400px;
+     
+    }
+    
+.star-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 30px solid #ff0000; /* Color of the star */
+}
+
+.star-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #fff; /* Color of the lightning border */
+  border-radius: 50%;
+  animation: lightning 2s infinite;
+}
+
+@keyframes lightning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+    
+</style>
+
+
+<body>
+  <div class="star-container">
+    <div class="star"></div>
+  </div>
+  
+  <text class="text">&#9733;</text>
+  <text class="text3">&#9733;</text> 
+  <text class="text2">&#9733;</text> 
+  <text class="text1">&#9733;</text> 
+  <text>&#9733;</text> 
+    <div class="container">
+        <h1>Stopwatch</h1>
+         
+        <p id="timerDisplay">00:00:00</p>
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+        <button id="resetButton">Reset</button>
+    </div>
+    <!-- <svg width="40" height="40">
+      <polygon points="20,0 30,20 40,20 25,35 20,40 15,35 0,20 10,20" fill="#ff0000" />
+    </svg>
+    <svg width="40" height="40">
+      <polygon points="20,0 30,20 40,20 25,35 20,40 15,35 0,20 10,20" fill="#ff0000" />
+    </svg>
+         -->
+         <br><br><br><br><br><br> <text>&#9733;</text> 
+         <text class="text1">&#9733;</text> 
+         <text class="text2">&#9733;</text> 
+         <text class="text3">&#9733;</text> 
+         <text class="text4">&#9733;</text>
+</body>
+
+<script>
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let timerInterval = null;
+
+
+        const startButton = document.getElementById('startButton');
+const stopButton = document.getElementById('stopButton');
+const resetButton = document.getElementById('resetButton');
+const timerDisplay = document.getElementById('timerDisplay');
+
+startButton.addEventListener('click', startTimer);
+stopButton.addEventListener('click', stopTimer);
+resetButton.addEventListener('click', resetTimer);
+
+
+
+    
+function startTimer() {
+  timerInterval = setInterval(() => {
+    seconds++;
+    if (seconds >= 60) {
+      minutes++;
+      seconds = 0;
+    }
+    if (minutes >= 60) {
+      hours++;
+      minutes = 0;
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+
+
+    function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+
+       function resetTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
+  updateTimerDisplay();
+}
+
+
+        function updateTimerDisplay() {
+  const hoursString = hours.toString().padStart(2, '0');
+  const minutesString = minutes.toString().padStart(2, '0');
+  const secondsString = seconds.toString().padStart(2, '0');
+  timerDisplay.textContent = `${hoursString}:${minutesString}:${secondsString}`;
+}
+
+</script>
+
+</html>
